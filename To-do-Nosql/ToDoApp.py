@@ -22,6 +22,10 @@ def addTasks():
         "done": False}
         )
     return "Task(s) Added"
+    @app.route("/todo/api/v1.0/tasks")
+    def get_all_tasks(self):
+        return jsonify({"task" : data})        
+
 
 if __name__ == "__main__":
     app.run(debug=True)
