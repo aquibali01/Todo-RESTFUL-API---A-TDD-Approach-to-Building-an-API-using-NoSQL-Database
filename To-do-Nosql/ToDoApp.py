@@ -22,9 +22,15 @@ def addTasks():
         "done": False}
         )
     return "Task(s) Added"
-    @app.route("/todo/api/v1.0/tasks")
-    def get_all_tasks(self):
-        return jsonify({"task" : data})        
+
+@app.route("/todo/api/v1.0/tasks", methods=["GET"])
+def get_all_tasks():
+    data = mongo.db.toDoApp
+    tasks = data.find({}, {"_id": 0})
+    task_list = []
+    for task in tasks:
+        task_list.append(task)
+    return jsonify({"task" : task_list})        
 
 
 if __name__ == "__main__":
