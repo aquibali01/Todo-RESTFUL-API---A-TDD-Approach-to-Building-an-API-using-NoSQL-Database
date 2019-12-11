@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 
 # Adding the Task to the database
 
-@app.route("/addTasks")
+@app.route("/todo/api/v1.0/addtasks")
 def addTasks():
     task = mongo.db.toDoApp
     task.insert(
@@ -21,7 +21,16 @@ def addTasks():
         "description" : "The Meeting is with Mr. Ali @ 11 A.M",
         "done": False}
         )
+    task.insert(
+        {"id" : 1,
+        "title" : "Brother's Birthday",
+        "description" : "Have to wish Haris a birthday",
+        "done": False}
+        )
+    
     return "Task(s) Added"
+
+# Retrieving lists of tasks from the database
 
 @app.route("/todo/api/v1.0/tasks", methods=["GET"])
 def get_all_tasks():
@@ -30,7 +39,24 @@ def get_all_tasks():
     task_list = []
     for task in tasks:
         task_list.append(task)
-    return jsonify({"task" : task_list})        
+    return jsonify({"task" : task_list})   
+
+# Retrieving a task from the database
+@app.route("/todo/api/v1.0/tasks/<int:id>", methods=["GET"])
+def get_a_task(id):
+    data = mongo.db.toDoApp
+    task = data.find({"id": id},{"_id": 0})
+    a_task = []
+    for i in task:
+        a_task.append(i)
+    return jsonify({"a_task": a_task})
+
+    # a_task = {"id" : task["id"],
+    #         "Title" : task["title"],
+    #         "Description" : task["description"],
+    #         "Done" : task["done"]}
+    # return jsonify({"task" : a_task})
+    
 
 
 if __name__ == "__main__":
