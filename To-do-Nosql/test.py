@@ -12,15 +12,15 @@ class test_toDoApp(unittest.TestCase):
     def test_get_tasks(self):
         result = self.client.get("http://127.0.0.1:5000//todo/api/v1.0/tasks")
         self.assertEqual(result.status_code, 200)
-    # def test_post_task(self):
-    #     result = self.client.post("http://127.0.0.1:5000//todo/api/v1.0/addtasks",
-    #                             data = json.dumps({
-    #                                             "id" : 2,
-    #                                             "title" : "Dinner outside",
-    #                                             "description" : "have a dinner with family",
-    #                                             "done": True}),
-    #                                             content_type="application/json")
-    #     self.assertEqual(result.status_code, 200)
+    def test_post_task(self):
+        result = self.client.post("http://127.0.0.1:5000//todo/api/v1.0/tasks",
+                                data = json.dumps({
+                                                "id" : 3,
+                                                "title" : "Dinner outside",
+                                                "description" : "have a dinner with family",
+                                                "done": True}),
+                                                content_type="application/json")
+        self.assertEqual(result.status_code, 200)
 
     # testing retrieving a task functionality
     def test_get_a_task(self):

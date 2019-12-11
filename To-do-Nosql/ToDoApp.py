@@ -12,23 +12,15 @@ mongo = PyMongo(app)
 
 # Adding the Task to the database
 
-@app.route("/todo/api/v1.0/addtasks")
-def addTasks():
+@app.route("/todo/api/v1.0/tasks", methods=["POST"])
+def add_task():
+    data = request.json
     task = mongo.db.toDoApp
-    task.insert(
-        {"id" : 0,
-        "title" : "Meeting with client",
-        "description" : "The Meeting is with Mr. Ali @ 11 A.M",
-        "done": False}
-        )
-    task.insert(
-        {"id" : 1,
-        "title" : "Brother's Birthday",
-        "description" : "Have to wish Haris a birthday",
-        "done": False}
-        )
-    
-    return "Task(s) Added"
+    task.insert(data)
+    return "Added the task(s)"
+
+
+
 
 # Retrieving lists of tasks from the database
 
@@ -47,7 +39,16 @@ def get_a_task(id):
     data = mongo.db.toDoApp
     task = data.find_one({"id": id},{"_id": 0})
     return jsonify({"task" : task})
-    
+
+# updating a task in the data base
+@app.route("/todo/api/v1.0/tasks/<int:id>", methods=["PUT"])
+def update_a_task(id):
+    data = request.json
+    task = mongo.db.toDoApp
+    print(data)
+    result = task.find_one_and_update({"id": id},{"$set" : {"title" : data["title"], "done" : data["done"]}})
+    print(result)
+    return "Sucessfully updated the task"
 
 
 if __name__ == "__main__":
