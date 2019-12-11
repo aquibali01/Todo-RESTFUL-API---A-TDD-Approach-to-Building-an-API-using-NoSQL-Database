@@ -50,6 +50,14 @@ def update_a_task(id):
     print(result)
     return "Sucessfully updated the task"
 
+# deleting a task from the database
+@app.route("/todo/api/v1.0/tasks/<int:id>" , methods=["DELETE"])
+def delete_a_task(id):
+    data = request.json
+    task = mongo.db.toDoApp
+    result = task.find_one_and_delete({"id" : id})
+    return "Successfully deleted a task"
+
 
 if __name__ == "__main__":
     app.run(debug=True)
