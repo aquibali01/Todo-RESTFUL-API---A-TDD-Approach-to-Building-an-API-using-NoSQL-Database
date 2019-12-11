@@ -45,17 +45,8 @@ def get_all_tasks():
 @app.route("/todo/api/v1.0/tasks/<int:id>", methods=["GET"])
 def get_a_task(id):
     data = mongo.db.toDoApp
-    task = data.find({"id": id},{"_id": 0})
-    a_task = []
-    for i in task:
-        a_task.append(i)
-    return jsonify({"a_task": a_task})
-
-    # a_task = {"id" : task["id"],
-    #         "Title" : task["title"],
-    #         "Description" : task["description"],
-    #         "Done" : task["done"]}
-    # return jsonify({"task" : a_task})
+    task = data.find_one({"id": id},{"_id": 0})
+    return jsonify({"task" : task})
     
 
 

@@ -28,11 +28,8 @@ class test_toDoApp(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
         data = json.loads(result.data)
-        self.assertEqual(data["a_task"], [{"description": "Have to wish Haris a birthday", 
-      "done": False, 
-      "id": 1, 
-      "title": "Brother's Birthday"}])
-        # self.assertEqual(data["description"], "Have to wish Haris a birthday")
+        self.assertEqual(data["task"]["title"], "Brother's Birthday")
+        self.assertEqual(data["task"]["description"], "Have to wish Haris a birthday")
 
 if __name__ == "__main__":
     unittest.main()
